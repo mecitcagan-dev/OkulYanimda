@@ -1,14 +1,14 @@
-# Local Video Uploader (Node.js + Express + React)
+# BAKMTAL Tübitak Video Galerisi (Node.js + Express + React)
 
-A full-stack app that scans local `.mp4` videos, converts to WebM, uploads to Supabase Storage, stores metadata in Postgres, and displays a gallery UI with date filtering.
+Tübitak projesi kapsamında geliştirilmiş, yerel `.mp4` videoları tarayan, WebM formatına dönüştüren, Supabase Storage'a yükleyen, metadata'yı Postgres'te saklayan ve tarih filtreleme ile galeri arayüzü sunan tam yığın uygulama.
 
-## Tech
+## Teknoloji
 - Backend: Node.js + Express, `fluent-ffmpeg` + `ffmpeg-static`, `@supabase/supabase-js`
 - Frontend: React (Vite) + Tailwind CSS
-- Tests: Jest + Supertest
+- Testler: Jest + Supertest
 
-## Environment
-Create `.env` at project root (do not commit):
+## Ortam Değişkenleri
+Proje kök dizininde `.env` dosyası oluşturun (commit etmeyin):
 
 ```
 SUPABASE_URL=https://isygsljzixaqtdqmdk.supabase.co
@@ -19,7 +19,7 @@ PORT=3000
 CONCURRENCY=3
 ```
 
-## Database Schema & Policies
+## Veritabanı Şeması ve Politikaları
 
 ```sql
 CREATE TABLE IF NOT EXISTS videos (
@@ -43,18 +43,18 @@ FOR INSERT
 USING (auth.role() = 'service_role');
 ```
 
-## How to Run (dev)
+## Çalıştırma (geliştirme)
 1. Backend
    - `cd backend && npm install`
-   - `cp ../.env ../.env` (fill keys)
+   - `cp ../.env ../.env` (anahtarları doldurun)
    - `npm run dev`
 2. Frontend
    - `cd ../frontend && npm install`
    - `npm run dev`
 
-Backend runs at `http://localhost:3000`, API base `http://localhost:3000/api`.
+Backend `http://localhost:3000` adresinde çalışır, API tabanı `http://localhost:3000/api`.
 
-## Example Requests
+## Örnek İstekler
 ```bash
 curl -X POST http://localhost:3000/api/videos/upload \
   -H "Content-Type: application/json" \
@@ -63,6 +63,6 @@ curl -X POST http://localhost:3000/api/videos/upload \
 curl "http://localhost:3000/api/videos?date=2025-10-16"
 ```
 
-## Notes
-- Never commit real keys. Service key is used server-side only.
-- Concurrency is controlled via `CONCURRENCY` (default 3).
+## Notlar
+- Gerçek anahtarları asla commit etmeyin. Servis anahtarı sadece sunucu tarafında kullanılır.
+- Eşzamanlılık `CONCURRENCY` ile kontrol edilir (varsayılan 3).
