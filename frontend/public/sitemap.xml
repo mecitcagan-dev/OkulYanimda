@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Ana Sayfa -->
+  <url>
+    <loc>https://okulyanimdaf.vercel.app/</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://okulyanimdaf.vercel.app/og-image.jpg</image:loc>
+      <image:title>Okul Yanımda - Online Ders Platformu</image:title>
+    </image:image>
+  </url>
+  
+  <!-- Gizlilik Politikası -->
+  <url>
+    <loc>https://okulyanimdaf.vercel.app/privacy.html</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  
+  <!-- API Endpoint'leri (isteğe bağlı) -->
+  <url>
+    <loc>https://okulyanimdaf.vercel.app/api/videos</loc>
+    <lastmod>2025-01-27</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+</urlset>

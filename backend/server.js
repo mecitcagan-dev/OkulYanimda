@@ -1,88 +1,113 @@
 // backend/server.js
-// Purpose: Initialize Express app, mount routes, and handle graceful shutdown.
-// Usage: node backend/server.js
-
 import express from 'express';
 import dotenv from 'dotenv';
 import videosRouter from './routes/videos.js';
+import compression from 'compression';
 
 dotenv.config();
 
 const app = express();
+
+app.use(
+	compression({
+		filter: (req, res) => {
+			if (req.headers['x-no-compression']) return false;
+			return compression.filter(req, res);
+		},
+		level: 6,
+		threshold: 1024,
+	}),
+);
+
 app.use(express.json({ limit: '10mb' }));
 
-// basic request logger
-app.use((req, _res, next) => {
-  const start = Date.now();
-  console.log(`[REQ] ${req.method} ${req.url}`);
-  const end = _res.end;
-  _res.end = function (...args) {
-    const ms = Date.now() - start;
-    console.log(`[RES] ${req.method} ${req.url} -> ${_res.statusCode} (${ms}ms)`);
-    return end.apply(this, args);
-  };
-  next();
+// CORS - allow any vercel.app origin + localhost
+app.use((req, res, next) => {
+	const origin = req.headers.origin || '';
+
+	const isAllowed =
+		!origin ||
+		origin.includes('vercel.app') ||
+		origin.startsWith('http://localhost') ||
+		origin.startsWith('http://127.0.0.1');
+
+	if (isAllowed) {
+		res.header('Access-Control-Allow-Origin', origin || '*');
+	}
+
+	res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+	res.header(
+		'Access-Control-Allow-Headers',
+		'Content-Type, Authorization, X-Requested-With',
+	);
+	res.header('Access-Control-Allow-Credentials', 'true');
+	res.header('Access-Control-Max-Age', '86400');
+
+	if (req.method === 'GET') {
+		res.header('Cache-Control', 'public, max-age=300');
+	}
+
+	if (req.method === 'OPTIONS') {
+		return res.sendStatus(204);
+	}
+
+	next();
 });
 
-app.get('/health', (_req, res) => res.json({ ok: true }));
+// Security Headers
+app.use((req, res, next) => {
+	const SUPABASE_URL =
+		process.env.SUPABASE_URL || 'https://ipvjwhonnzwclllrljrx.supabase.co';
+
+	res.setHeader(
+		'Content-Security-Policy',
+		`default-src 'self'; ` +
+			`script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://www.google-analytics.com; ` +
+			`style-src 'self' 'unsafe-inline'; ` +
+			`img-src 'self' data: https: blob:; ` +
+			`media-src 'self' ${SUPABASE_URL} blob:; ` +
+			`connect-src 'self' ${SUPABASE_URL} https://www.google-analytics.com https://*.vercel.app; ` +
+			`font-src 'self' data:; ` +
+			`frame-src 'self' https://www.google.com; ` +
+			`object-src 'none'; ` +
+			`base-uri 'self';`,
+	);
+
+	res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+	res.setHeader('X-Content-Type-Options', 'nosniff');
+	res.setHeader('X-Frame-Options', 'SAMEORIGIN');
+
+	next();
+});
+
+if (process.env.NODE_ENV !== 'production') {
+	app.use((req, _res, next) => {
+		console.log(`[REQ] ${req.method} ${req.url}`);
+		next();
+	});
+}
+
+app.get('/health', (_req, res) => {
+	res.setHeader('Cache-Control', 'public, max-age=60');
+	res.json({ ok: true, timestamp: new Date().toISOString() });
+});
+
 app.use('/api/videos', videosRouter);
 
-// Centralized error handler (fallback)
+app.use((_req, res) => {
+	res.status(404).json({ error: 'Not found' });
+});
+
 app.use((err, _req, res, _next) => {
-  console.error('Unhandled error:', err?.message);
-  res.status(500).json({ error: 'Internal server error' });
+	console.error('Unhandled error:', err?.message);
+	res.status(500).json({ error: 'Internal server error' });
 });
 
-const PORT = Number(process.env.PORT || 3000);
-let server;
-
-export function start() {
-  if (!server) {
-    server = app.listen(PORT, () => {
-      console.log(`Server listening on http://localhost:${PORT}`);
-      if (process.env.AUTO_SCAN_ON_START === 'true') {
-        try {
-          const url = `http://localhost:${PORT}/api/videos/upload`;
-          setTimeout(async () => {
-            try {
-              console.log('[bootstrap] Auto-scan trigger start');
-              const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({}) });
-              const text = await res.text();
-              console.log('[bootstrap] Auto-scan response', res.status, text);
-            } catch (e) {
-              console.warn('[bootstrap] Auto-scan failed:', e?.message);
-            }
-          }, 250);
-        } catch {}
-      }
-    });
-  }
-  return server;
+if (process.env.NODE_ENV !== 'production') {
+	const PORT = Number(process.env.PORT || 3000);
+	app.listen(PORT, () => {
+		console.log(`Server listening on http://localhost:${PORT}`);
+	});
 }
-
-export function stop() {
-  return new Promise((resolve) => {
-    if (!server) return resolve();
-    server.close(() => resolve());
-  });
-}
-
-// Graceful shutdown
-process.on('SIGINT', async () => {
-  console.log('Shutting down...');
-  await stop();
-  process.exit(0);
-});
-
-process.on('SIGTERM', async () => {
-  console.log('Shutting down...');
-  await stop();
-  process.exit(0);
-});
 
 export default app;
-
-// Auto-start when executed directly (not imported)
-if (import.meta.url === `file://${process.argv[1]}`) {
-  start();
-}

@@ -1,12 +1,321 @@
 <!doctype html>
 <html lang="tr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Video Galerisi - BAKMTAL Tübitak</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+	<head>
+		<!-- ===========================
+     Temel / Teknik Meta
+     =========================== -->
+		<title>Okul Yanımda | Ücretsiz Online Ders Videoları</title>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, maximum-scale=5"
+		/>
+		<link rel="canonical" href="https://okulyanimdaf.vercel.app/" />
+		<meta http-equiv="content-language" content="tr-TR" />
+		<meta name="referrer" content="no-referrer-when-downgrade" />
+
+		<!-- ===========================
+     SEO - Description & Keywords
+     =========================== -->
+		<meta
+			name="description"
+			content="Okul Yanımda, sağlık, engel veya başka sebeplerle okula gelemeyen öğrenciler için ücretsiz online ders videoları sunan eğitim platformudur. Borusan Asım Kocabıyık MTAL Bilişim Teknolojileri öğrencileri tarafından geliştirilmiştir."
+		/>
+		<meta
+			name="keywords"
+			content="okul yanımda, online ders, uzaktan eğitim, video ders, ücretsiz eğitim, hasta öğrenci, engelli öğrenci eğitimi, borusan mtal, bilişim teknolojileri, tübitak projesi, ders videoları, okula gidememe"
+		/>
+		<meta name="author" content="Mecit Çağan, Ender Karahanlı" />
+		<meta
+			name="robots"
+			content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+		/>
+		<meta
+			name="googlebot"
+			content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+		/>
+
+		<!-- ===========================
+     Open Graph (Facebook, LinkedIn)
+     =========================== -->
+		<meta property="og:locale" content="tr_TR" />
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="Okul Yanımda" />
+		<meta
+			property="og:title"
+			content="Okul Yanımda | Ücretsiz Online Ders Videoları"
+		/>
+		<meta
+			property="og:description"
+			content="Sağlık, engel veya başka sebeplerle okula gelemeyen öğrenciler için ücretsiz online ders videoları. Borusan MTAL Bilişim Teknolojileri öğrencileri tarafından geliştirilmiştir."
+		/>
+		<meta property="og:url" content="https://okulyanimdaf.vercel.app/" />
+		<meta
+			property="og:image"
+			content="https://okulyanimdaf.vercel.app/og-image.jpg"
+		/>
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta
+			property="og:image:alt"
+			content="Okul Yanımda - Online Ders Platformu"
+		/>
+
+		<!-- ===========================
+     Twitter Card
+     =========================== -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta
+			name="twitter:title"
+			content="Okul Yanımda | Ücretsiz Online Ders Videoları"
+		/>
+		<meta
+			name="twitter:description"
+			content="Okula gelemeyen öğrenciler için ücretsiz online ders platformu"
+		/>
+		<meta
+			name="twitter:image"
+			content="https://okulyanimdaf.vercel.app/og-image.jpg"
+		/>
+		<!-- ===========================
+     Favicon
+     =========================== -->
+		<link
+			rel="icon"
+			type="image/x-icon"
+			href="/favicon/favicon.ico"
+			sizes="any"
+		/>
+		<link
+			rel="icon"
+			type="image/png"
+			sizes="32x32"
+			href="/favicon/favicon-32x32.png"
+		/>
+		<link
+			rel="apple-touch-icon"
+			sizes="180x180"
+			href="/favicon/apple-touch-icon.png"
+		/>
+		<link rel="manifest" href="/favicon/site.webmanifest" />
+
+		<!-- ===========================
+     Schema.org JSON-LD - Enhanced for Better SEO
+     =========================== -->
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "EducationalOrganization",
+				"name": "Okul Yanımda",
+				"alternateName": "Okul Yanimda",
+				"url": "https://okulyanimdaf.vercel.app/",
+				"logo": "https://okulyanimdaf.vercel.app/favicon/android-chrome-512x512.png",
+				"description": "Sağlık, engel veya başka sebeplerle okula gelemeyen öğrenciler için ücretsiz online ders videoları",
+				"address": {
+					"@type": "PostalAddress",
+					"addressCountry": "TR",
+					"addressLocality": "İstanbul"
+				},
+				"educationalLevel": "Lise",
+				"offers": {
+					"@type": "Offer",
+					"price": "0",
+					"priceCurrency": "TRY",
+					"availability": "https://schema.org/InStock"
+				},
+				"provider": {
+					"@type": "EducationalOrganization",
+					"name": "Borusan Asım Kocabıyık MTAL",
+					"department": "Bilişim Teknolojileri"
+				},
+				"founder": [
+					{
+						"@type": "Person",
+						"name": "Mecit Çağan"
+					},
+					{
+						"@type": "Person",
+						"name": "Ender Karahanlı"
+					}
+				],
+				"keywords": "okul yanımda, online ders, uzaktan eğitim, hasta öğrenci, engelli öğrenci, ücretsiz ders videoları"
+			}
+		</script>
+
+		<!-- WebSite Schema (Arama Kutusu) -->
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "WebSite",
+				"name": "Okul Yanımda",
+				"url": "https://okulyanimdaf.vercel.app/",
+				"potentialAction": {
+					"@type": "SearchAction",
+					"target": {
+						"@type": "EntryPoint",
+						"urlTemplate": "https://okulyanimdaf.vercel.app/?date={search_term_string}"
+					},
+					"query-input": "required name=search_term_string"
+				}
+			}
+		</script>
+
+		<!-- ===========================
+     CRITICAL CSS - Inline for faster FCP
+     =========================== -->
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				box-sizing: border-box;
+			}
+			body {
+				font-family:
+					-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+					Cantarell, sans-serif;
+				line-height: 1.5;
+				color: #1f2937;
+				background: #f3f4f6;
+			}
+			#root {
+				min-height: 100vh;
+			}
+			.loading {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				min-height: 100vh;
+			}
+			.spinner {
+				width: 48px;
+				height: 48px;
+				border: 4px solid #e5e7eb;
+				border-top-color: #3b82f6;
+				border-radius: 50%;
+				animation: spin 0.8s linear infinite;
+			}
+			@keyframes spin {
+				to {
+					transform: rotate(360deg);
+				}
+			}
+		</style>
+
+		<!-- Preconnect to critical origins -->
+		<link
+			rel="preconnect"
+			href="https://ipvjwhonnzwclllrljrx.supabase.co"
+			crossorigin
+		/>
+		<link rel="dns-prefetch" href="https://ipvjwhonnzwclllrljrx.supabase.co" />
+
+		<!-- Google Analytics - async with performance optimization -->
+		<link
+			rel="preconnect"
+			href="https://www.googletagmanager.com"
+			crossorigin
+		/>
+		<link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+
+		<!-- Theme Color -->
+		<meta
+			name="theme-color"
+			content="#2563eb"
+			media="(prefers-color-scheme: light)"
+		/>
+		<meta
+			name="theme-color"
+			content="#1e40af"
+			media="(prefers-color-scheme: dark)"
+		/>
+
+		<!-- Google Analytics - defer loading -->
+		<script
+			defer
+			src="https://www.googletagmanager.com/gtag/js?id=G-ZBT9L2P2Q8"
+		></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag('js', new Date());
+			gtag('config', 'G-ZBT9L2P2Q8');
+		</script>
+
+		<!-- AdSense - defer loading -->
+		<script
+			defer
+			src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2093119911345143"
+			crossorigin="anonymous"
+		></script>
+
+		<!-- Google Search Console Verification (Add your verification code here) -->
+		<!-- <meta name="google-site-verification" content="YOUR_VERIFICATION_CODE" /> -->
+	</head>
+
+	<body>
+		<!-- Accessibility: Skip to main content -->
+		<a href="#main-content" class="sr-only focus:not-sr-only">
+			Ana içeriğe atla
+		</a>
+
+		<!-- Loading indicator - will be replaced by React -->
+		<div id="root">
+			<div class="loading">
+				<div class="spinner" role="status" aria-label="Yükleniyor"></div>
+			</div>
+		</div>
+
+		<!-- Module script - deferred automatically -->
+		<script type="module" src="/src/main.jsx"></script>
+
+		<!-- Footer - loaded after main content -->
+		<footer
+			style="
+				text-align: center;
+				padding: 20px;
+				margin-top: 50px;
+				border-top: 1px solid #ddd;
+			"
+		>
+			<nav aria-label="Alt bilgi navigasyonu">
+				<a
+					href="/privacy.html"
+					style="color: #666; text-decoration: none; margin: 0 10px"
+					aria-label="Gizlilik politikası sayfası"
+				>
+					Gizlilik Politikası
+				</a>
+				<span style="color: #999">|</span>
+				<a
+					href="/sitemap.xml"
+					style="color: #666; text-decoration: none; margin: 0 10px"
+					aria-label="Site haritası"
+				>
+					Site Haritası
+				</a>
+			</nav>
+			<p style="margin-top: 10px; color: #999; font-size: 14px">
+				© 2025 Okul Yanımda - Tüm hakları saklıdır
+			</p>
+		</footer>
+
+		<!-- Structured data for breadcrumbs -->
+		<script type="application/ld+json">
+			{
+				"@context": "https://schema.org",
+				"@type": "BreadcrumbList",
+				"itemListElement": [
+					{
+						"@type": "ListItem",
+						"position": 1,
+						"name": "Ana Sayfa",
+						"item": "https://okulyanimdaf.vercel.app/"
+					}
+				]
+			}
+		</script>
+	</body>
 </html>

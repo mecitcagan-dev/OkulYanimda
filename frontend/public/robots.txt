@@ -1,0 +1,48 @@
+# Okul Yanımda - robots.txt
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /*.json
+
+# Sitemap
+Sitemap: https://okulyanimdaf.vercel.app/sitemap.xml
+
+# Google Bot
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Googlebot-Video
+Allow: /
+
+# Bing Bot
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Diğer İyi Botlar
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+# Kötü Botları Engelle
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /

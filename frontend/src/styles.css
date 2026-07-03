@@ -1,3 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ── Thumbnail shimmer skeleton ────────────────────────────────────────────── */
+@keyframes shimmer {
+	0% {
+		background-position: -600px 0;
+	}
+	100% {
+		background-position: 600px 0;
+	}
+}
+
+.shimmer-thumb {
+	background: linear-gradient(
+		90deg,
+		#1f2937 0%,
+		#374151 40%,
+		#4b5563 50%,
+		#374151 60%,
+		#1f2937 100%
+	);
+	background-size: 600px 100%;
+	animation: shimmer 1.4s ease-in-out infinite;
+}

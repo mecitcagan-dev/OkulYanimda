@@ -1,0 +1,61 @@
+{
+	"version": 2,
+	"installCommand": "npm install",
+	"builds": [
+		{
+			"src": "frontend/package.json",
+			"use": "@vercel/static-build",
+			"config": {
+				"distDir": "dist"
+			}
+		},
+		{
+			"src": "backend/server.js",
+			"use": "@vercel/node"
+		}
+	],
+	"routes": [
+		{
+			"src": "/api/(.*)",
+			"dest": "backend/server.js"
+		},
+		{
+			"src": "/health",
+			"dest": "backend/server.js"
+		},
+		{
+			"handle": "filesystem"
+		},
+		{
+			"src": "/(.*)",
+			"dest": "frontend/dist/index.html"
+		}
+	],
+	"headers": [
+		{
+			"source": "/(.*)",
+			"headers": [
+				{
+					"key": "Content-Security-Policy",
+					"value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://www.google-analytics.com https://googleads.g.doubleclick.net https://ep2.adtrafficquality.google; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; media-src 'self' https://ipvjwhonnzwclllrljrx.supabase.co blob:; connect-src 'self' https://ipvjwhonnzwclllrljrx.supabase.co https://www.google-analytics.com https://googleads.g.doubleclick.net https://ep1.adtrafficquality.google https://ep2.adtrafficquality.google https://adservice.google.com; font-src 'self' data:; frame-src 'self' https://www.google.com https://googleads.g.doubleclick.net https://tpc.googlesyndication.com; object-src 'none'; base-uri 'self';"
+				},
+				{
+					"key": "Referrer-Policy",
+					"value": "strict-origin-when-cross-origin"
+				},
+				{
+					"key": "X-Content-Type-Options",
+					"value": "nosniff"
+				},
+				{
+					"key": "X-Frame-Options",
+					"value": "SAMEORIGIN"
+				},
+				{
+					"key": "Permissions-Policy",
+					"value": "geolocation=(), microphone=(), camera=()"
+				}
+			]
+		}
+	]
+}
